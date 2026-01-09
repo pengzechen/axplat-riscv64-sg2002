@@ -28,6 +28,34 @@ unsafe fn init_mmu() {
     }
 }
 
+
+/// Early UART output for boot message
+#[naked]
+pub unsafe extern "C" fn early_tests() {
+    core::arch::asm!(
+        // UART base address
+        "li t0, 0x4140000",
+
+        // 输出 'Boot\r\n'
+        "li t1, 'B'",
+        "sb t1, 0(t0)",
+        "li t1, 'o'",
+        "sb t1, 0(t0)",
+        "li t1, 'o'",
+        "sb t1, 0(t0)",
+        "li t1, 't'",
+        "sb t1, 0(t0)",
+        "li t1, 0x0d",   // '\r'
+        "sb t1, 0(t0)",
+        "li t1, 0x0a",   // '\n'
+        "sb t1, 0(t0)",
+
+        "ret",           // 返回调用者
+        options(noreturn)
+    );
+}
+
+
 /// The earliest entry point for the primary CPU.
 #[unsafe(naked)]
 #[unsafe(no_mangle)]
@@ -37,22 +65,6 @@ unsafe extern "C" fn _start() -> ! {
     // a0 = hartid
     // a1 = dtb
     core::arch::naked_asm!("
-        // --- early UART output ---
-        li      t0, 0x4140000         // UART base
-        li      t1, 'B'
-        sb      t1, 0(t0)
-        li      t1, 'o'
-        sb      t1, 0(t0)
-        li      t1, 'o'
-        sb      t1, 0(t0)
-        li      t1, 't'
-        sb      t1, 0(t0)
-        li      t1, '\r'
-        sb      t1, 0(t0)
-        li      t1, '\n'
-        sb      t1, 0(t0)
-        // ---------------------------
-
         mv      s0, a0                  // save hartid
         mv      s1, a1                  // save DTB pointer
         la      sp, {boot_stack}
@@ -60,7 +72,10 @@ unsafe extern "C" fn _start() -> ! {
         add     sp, sp, t0              // setup boot stack
 
         call    {init_boot_page_table}
+
+        call    {early_tests}            // early UART test
         call    {init_mmu}              // setup boot page table and enabel MMU
+        call    {early_tests}            // early UART test after MMU
 
         li      s2, {phys_virt_offset}  // fix up virtual high address
         add     sp, sp, s2
@@ -78,6 +93,7 @@ unsafe extern "C" fn _start() -> ! {
         init_boot_page_table = sym init_boot_page_table,
         init_mmu = sym init_mmu,
         entry = sym axplat::call_main,
+        early_tests = sym early_tests,
     )
 }
 

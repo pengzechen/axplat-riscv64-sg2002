@@ -29,10 +29,9 @@ unsafe fn init_mmu() {
 }
 
 
-/// Early UART output for boot message
 #[naked]
-pub unsafe extern "C" fn early_tests() {
-    core::arch::asm!(
+unsafe extern "C" fn early_uart_init() {
+    core::arch::naked_asm!(
         // UART base address
         "li t0, 0x4140000",
 
@@ -50,10 +49,10 @@ pub unsafe extern "C" fn early_tests() {
         "li t1, 0x0a",   // '\n'
         "sb t1, 0(t0)",
 
-        "ret",           // 返回调用者
-        options(noreturn)
+        "ret",
     );
 }
+
 
 
 /// The earliest entry point for the primary CPU.

@@ -30,7 +30,7 @@ unsafe fn init_mmu() {
 
 
 #[naked]
-unsafe extern "C" fn early_uart_init() {
+unsafe extern "C" fn early_tests() {
     core::arch::naked_asm!(
         // UART base address
         "li t0, 0x4140000",

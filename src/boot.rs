@@ -37,6 +37,22 @@ unsafe extern "C" fn _start() -> ! {
     // a0 = hartid
     // a1 = dtb
     core::arch::naked_asm!("
+        // --- early UART output ---
+        li      t0, 0x4140000         // UART base
+        li      t1, 'B'
+        sb      t1, 0(t0)
+        li      t1, 'o'
+        sb      t1, 0(t0)
+        li      t1, 'o'
+        sb      t1, 0(t0)
+        li      t1, 't'
+        sb      t1, 0(t0)
+        li      t1, '\r'
+        sb      t1, 0(t0)
+        li      t1, '\n'
+        sb      t1, 0(t0)
+        // ---------------------------
+
         mv      s0, a0                  // save hartid
         mv      s1, a1                  // save DTB pointer
         la      sp, {boot_stack}

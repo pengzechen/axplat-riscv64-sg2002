@@ -29,7 +29,7 @@ unsafe fn init_mmu() {
 }
 
 
-#[naked]
+#[unsafe(naked)]
 unsafe extern "C" fn early_tests() {
     core::arch::naked_asm!(
         // UART base address
@@ -52,8 +52,6 @@ unsafe extern "C" fn early_tests() {
         "ret",
     );
 }
-
-
 
 /// The earliest entry point for the primary CPU.
 #[unsafe(naked)]

@@ -15,7 +15,7 @@ cpu-num = 1                                     # uint
 # Base address of the whole physical memory.
 phys-memory-base = 0x8000_0000                  # uint
 
-# Size of the whole physical memory. (1G)
+# Size of the whole physical memory. (254Mb)
 phys-memory-size = 0xFE00000                    # uint
 
 # Base physical address of the kernel image.

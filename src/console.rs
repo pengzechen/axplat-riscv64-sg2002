@@ -13,10 +13,15 @@ static UART: LazyInit<SpinNoIrq<MmioSerialPort>> = LazyInit::new();
 pub(crate) fn init_early() {
     UART.init_once({
         let uart =
-            unsafe { MmioSerialPort::new_with_stride(phys_to_virt(pa!(UART_PADDR)).as_usize(), 1) };
+            unsafe { MmioSerialPort::new_with_stride(phys_to_virt(pa!(UART_PADDR)).as_usize(), 4) };
         // uart.init();
         SpinNoIrq::new(uart)
     });
+    
+    let mut uart = UART.lock();
+    for &c in b"Boot\r\n" {
+        uart.send_raw(c);
+    }
 }
 
 struct ConsoleIfImpl;

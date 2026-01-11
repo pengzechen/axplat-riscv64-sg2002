@@ -17,11 +17,6 @@ pub(crate) fn init_early() {
         // uart.init();
         SpinNoIrq::new(uart)
     });
-    
-    let mut uart = UART.lock();
-    for &c in b"Boot\r\n" {
-        uart.send_raw(c);
-    }
 }
 
 struct ConsoleIfImpl;

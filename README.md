@@ -1,4 +1,4 @@
-# ArceOS / Starry OS 移植 VisionFive 2 (昉·星光2)
+# ArceOS / Starry OS 移植 sg2002
 
 ## 参考文档
 

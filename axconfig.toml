@@ -47,7 +47,7 @@ boot-stack-size = 0x40000                       # uint
 [devices]
 
 # MMIO ranges with format (`base_paddr`, `size`).
-mmio-ranges = [[0x0, 0x4000_0000]]  # [(uint, uint)]
+mmio-ranges = [[0x0, 0x8000_0000]]  # [(uint, uint)]
 
 # VirtIO MMIO ranges with format (`base_paddr`, `size`).
 virtio-mmio-ranges = []             # [(uint, uint)]

@@ -19,10 +19,10 @@ phys-memory-base = 0x8000_0000                  # uint
 phys-memory-size = 0xFE00000                    # uint
 
 # Base physical address of the kernel image.
-kernel-base-paddr = 0x8020_0000                 # uint
+kernel-base-paddr = 0x8050_0000                 # uint
 
 # Base virtual address of the kernel image.
-kernel-base-vaddr = "0xffff_ffc0_8020_0000"     # uint
+kernel-base-vaddr = "0xffff_ffc0_8050_0000"     # uint
 
 # Linear mapping offset, for quick conversions between physical and virtual
 # addresses.
@@ -66,7 +66,7 @@ pci-ranges = []                     # [(uint, uint)]
 
 
 # Timer interrupt frequency in Hz.
-timer-frequency = 4_000_000         # uint
+timer-frequency = 25_000_000         # uint
 
 # Timer interrupt num.
 timer-irq = "0x8000_0000_0000_0005" # uint
@@ -84,7 +84,7 @@ ipi-irq = "0x8000_0000_0000_0001"   # uint
 #     interrupts = <0x11 0x04>;
 #     interrupt-parent = <0x04>;
 # };
-rtc-paddr = 0x05026000            # uint
+rtc-paddr = 0x0502_6000            # uint
 
 
 # sg2002 / Interrupt
